@@ -1,4 +1,4 @@
-FROM node:18-alpine AS build
+FROM node:18-alpine3.21 AS build
 WORKDIR /app
 
 ARG REACT_APP_API_URL

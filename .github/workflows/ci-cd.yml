@@ -5,38 +5,49 @@ on:
     branches: [ "main" ]
 
 env:
-  IMAGE_NAME: gaming-store-app
-  ACR_NAME: ${{ secrets.AZURE_ACR_NAME }}
-  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  IMAGE_NAME: villa-booking
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Lint Dockerfiles
+      - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: docker/Dockerfile.backend
+          dockerfile: app/backend/Dockerfile
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Azure ACR
-        run: |
-          echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+      - name: Login to ACR
+        run: echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
 
-      - name: Build Docker Images
+      - name: Build Images
         run: |
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest -f docker/Dockerfile.backend .
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}-frontend:latest -f docker/Dockerfile.frontend .
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest -f app/backend/Dockerfile ./app/backend
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}-frontend:latest -f app/frontend/Dockerfile ./app/frontend
+
+  scan:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Security Scan
         run: bash security/trivy_scan.sh ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Push Images to ACR
+  deploy:
+    runs-on: ubuntu-latest
+    needs: scan
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to ACR
+        run: echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+      - name: Push Images
         run: |
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}-frontend:latest
@@ -44,4 +55,4 @@ jobs:
       - name: Terraform Apply
         run: |
           cd terraform
-          bash init.sh
+          terraform init && terraform apply -auto-approve

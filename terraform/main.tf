@@ -1,5 +1,11 @@
 variable "dockerhub_user" {}
 variable "resource_group" {}
+variable "location" {
+  default = "eastus"
+}
+variable "mongo_uri" {
+  sensitive = true
+}
 
 
 provider "azurerm" {
@@ -26,6 +32,12 @@ resource "azurerm_container_group" "backend" {
       port     = 5000
       protocol = "TCP"
     }
+    environment_variables = {
+      PORT = "5000"
+    }
+    secure_environment_variables = {
+      MONGO_URI = var.mongo_uri
+    }
   }
 
   ip_address_type = "Public"
@@ -49,7 +61,7 @@ resource "azurerm_container_group" "frontend" {
     }
 
     environment_variables = {
-      REACT_APP_API_URL = "http://${azurerm_container_group.backend.ip_address}:5000"
+      REACT_APP_API_URL = "http://${azurerm_container_group.backend.dns_name_label}.${var.location}.azurecontainer.io:5000"
     }
   }
 

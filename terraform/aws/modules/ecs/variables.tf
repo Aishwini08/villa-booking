@@ -1,0 +1,12 @@
+variable "app_name" {}
+variable "aws_region" {}
+variable "mongo_uri" {}
+variable "frontend_url" {}
+variable "execution_role_arn" {}
+variable "backend_repo_url" {}
+variable "frontend_repo_url" {}
+variable "subnet_ids" {}
+variable "backend_sg_id" {}
+variable "frontend_sg_id" {}
+variable "backend_log_group" {}
+variable "frontend_log_group" {}

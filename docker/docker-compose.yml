@@ -4,9 +4,11 @@ services:
     build: ../app/frontend
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
       - backend
+    networks:
+      - villa-network
 
   backend:
     build: ../app/backend
@@ -16,6 +18,8 @@ services:
       - PORT=5000
     ports:
       - "5000:5000"
+    networks:
+      - villa-network
 
   prometheus:
     image: prom/prometheus
@@ -24,9 +28,17 @@ services:
       - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - villa-network
 
   grafana:
     image: grafana/grafana
     container_name: grafana
     ports:
       - "3001:3000"
+    networks:
+      - villa-network
+
+networks:
+  villa-network:
+    driver: bridge

@@ -42,7 +42,6 @@ module "ecs" {
   source              = "./modules/ecs"
   app_name            = var.app_name
   aws_region          = var.aws_region
-  mongo_uri           = var.mongo_uri
   frontend_url        = var.frontend_url
   execution_role_arn  = module.iam.execution_role_arn
   backend_repo_url    = module.ecr.backend_repo_url

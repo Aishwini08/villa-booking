@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_ecs_cluster" "main" {
   name = "${var.app_name}-cluster"
 
@@ -28,7 +30,7 @@ resource "aws_ecs_task_definition" "backend" {
     ]
     secrets = [{
       name      = "MONGO_URI"
-      valueFrom = var.mongo_uri
+      valueFrom = "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/villa-booking/mongo-uri"
     }]
     logConfiguration = {
       logDriver = "awslogs"

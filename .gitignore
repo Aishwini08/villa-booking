@@ -71,3 +71,7 @@ scripts/*.tmp
 *.tgz
 *.bak
 *.backup
+
+# ECR credentials
+ecr-password.txt
+terraform/aws/ecr-password.txt

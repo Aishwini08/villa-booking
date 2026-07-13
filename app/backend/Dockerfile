@@ -1,5 +1,8 @@
-FROM node:18-alpine3.21
+FROM node:18-alpine
 WORKDIR /app
+
+RUN apk update && apk upgrade --no-cache
+
 COPY package*.json ./
 RUN npm ci
 COPY . .

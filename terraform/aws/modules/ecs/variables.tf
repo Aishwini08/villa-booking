@@ -1,6 +1,5 @@
 variable "app_name" {}
 variable "aws_region" {}
-variable "frontend_url" {}
 variable "execution_role_arn" {}
 variable "backend_repo_url" {}
 variable "frontend_repo_url" {}
@@ -10,4 +9,3 @@ variable "frontend_sg_id" {}
 variable "backend_log_group" {}
 variable "frontend_log_group" {}
 variable "namespace_id" {}
-variable "namespace_name" {}

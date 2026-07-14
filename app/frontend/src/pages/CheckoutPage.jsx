@@ -65,7 +65,7 @@ const CheckoutPage = () => {
       };
 
       // Make API call to backend
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const apiUrl = process.env.REACT_APP_API_URL || '';
       const response = await fetch(`${apiUrl}/api/orders`, {
         method: 'POST',
         headers: {

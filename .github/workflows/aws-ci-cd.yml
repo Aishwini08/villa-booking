@@ -42,7 +42,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$APP_NAME-backend:latest -f app/backend/Dockerfile ./app/backend
           docker build -t $ECR_REGISTRY/$APP_NAME-frontend:latest \
-            --build-arg REACT_APP_API_URL=http://backend:5000 \
+            --build-arg REACT_APP_API_URL="" \
             -f app/frontend/Dockerfile ./app/frontend
           docker push $ECR_REGISTRY/$APP_NAME-backend:latest
           docker push $ECR_REGISTRY/$APP_NAME-frontend:latest

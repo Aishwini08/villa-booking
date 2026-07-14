@@ -26,8 +26,7 @@ resource "aws_ecs_task_definition" "backend" {
       name          = "backend"
     }]
     environment = [
-      { name = "PORT",         value = "5000" },
-      { name = "FRONTEND_URL", value = var.frontend_url }
+      { name = "PORT", value = "5000" }
     ]
     secrets = [{
       name      = "MONGO_URI"

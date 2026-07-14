@@ -39,18 +39,16 @@ module "cloudwatch" {
 }
 
 module "ecs" {
-  source              = "./modules/ecs"
-  app_name            = var.app_name
-  aws_region          = var.aws_region
-  frontend_url        = var.frontend_url
-  execution_role_arn  = module.iam.execution_role_arn
-  backend_repo_url    = module.ecr.backend_repo_url
-  frontend_repo_url   = module.ecr.frontend_repo_url
-  subnet_ids          = module.vpc.subnet_ids
-  backend_sg_id       = module.security.backend_sg_id
-  frontend_sg_id      = module.security.frontend_sg_id
-  backend_log_group   = module.cloudwatch.backend_log_group
-  frontend_log_group  = module.cloudwatch.frontend_log_group
-  namespace_id        = module.vpc.namespace_id
-  namespace_name      = module.vpc.namespace_name
+  source             = "./modules/ecs"
+  app_name           = var.app_name
+  aws_region         = var.aws_region
+  execution_role_arn = module.iam.execution_role_arn
+  backend_repo_url   = module.ecr.backend_repo_url
+  frontend_repo_url  = module.ecr.frontend_repo_url
+  subnet_ids         = module.vpc.subnet_ids
+  backend_sg_id      = module.security.backend_sg_id
+  frontend_sg_id     = module.security.frontend_sg_id
+  backend_log_group  = module.cloudwatch.backend_log_group
+  frontend_log_group = module.cloudwatch.frontend_log_group
+  namespace_id       = module.vpc.namespace_id
 }

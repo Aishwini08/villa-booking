@@ -159,7 +159,6 @@ terraform apply
 
 ## Tech Stack
 
-
 - **Frontend:** React.js, Redux, Nginx
 - **Backend:** Node.js, Express, Mongoose
 - **Database:** MongoDB Atlas

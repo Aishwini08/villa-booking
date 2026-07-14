@@ -23,6 +23,7 @@ resource "aws_ecs_task_definition" "backend" {
     portMappings = [{
       containerPort = 5000
       protocol      = "tcp"
+      name          = "backend"
     }]
     environment = [
       { name = "PORT",         value = "5000" },
@@ -84,6 +85,20 @@ resource "aws_ecs_service" "backend" {
     assign_public_ip = true
   }
 
+  service_connect_configuration {
+    enabled   = true
+    namespace = var.namespace_id
+
+    service {
+      port_name      = "backend"
+      discovery_name = "backend"
+      client_alias {
+        port     = 5000
+        dns_name = "backend"
+      }
+    }
+  }
+
   depends_on = [aws_ecs_task_definition.backend]
 }
 
@@ -99,6 +114,11 @@ resource "aws_ecs_service" "frontend" {
     subnets          = var.subnet_ids
     security_groups  = [var.frontend_sg_id]
     assign_public_ip = true
+  }
+
+  service_connect_configuration {
+    enabled   = true
+    namespace = var.namespace_id
   }
 
   depends_on = [aws_ecs_task_definition.frontend]

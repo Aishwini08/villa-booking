@@ -51,4 +51,6 @@ module "ecs" {
   frontend_sg_id      = module.security.frontend_sg_id
   backend_log_group   = module.cloudwatch.backend_log_group
   frontend_log_group  = module.cloudwatch.frontend_log_group
+  namespace_id        = module.vpc.namespace_id
+  namespace_name      = module.vpc.namespace_name
 }

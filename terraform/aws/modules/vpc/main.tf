@@ -51,6 +51,16 @@ resource "aws_route_table" "public" {
   }
 }
 
+resource "aws_service_discovery_private_dns_namespace" "main" {
+  name        = "villa-booking"
+  description = "Private DNS namespace for villa-booking services"
+  vpc         = aws_vpc.main.id
+
+  tags = {
+    Name = "${var.app_name}-namespace"
+  }
+}
+
 resource "aws_route_table_association" "public_a" {
   subnet_id      = aws_subnet.public_a.id
   route_table_id = aws_route_table.public.id

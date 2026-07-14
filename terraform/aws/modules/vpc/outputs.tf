@@ -7,7 +7,7 @@ output "subnet_ids" {
 }
 
 output "namespace_id" {
-  value = aws_service_discovery_private_dns_namespace.main.id
+  value = aws_service_discovery_private_dns_namespace.main.arn
 }
 
 output "namespace_name" {

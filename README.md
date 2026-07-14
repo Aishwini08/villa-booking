@@ -159,6 +159,7 @@ terraform apply
 
 ## Tech Stack
 
+
 - **Frontend:** React.js, Redux, Nginx
 - **Backend:** Node.js, Express, Mongoose
 - **Database:** MongoDB Atlas
@@ -167,4 +168,4 @@ terraform apply
 - **CI/CD:** GitHub Actions
 - **Cloud:** AWS (ECS Fargate, ECR, VPC, IAM, CloudWatch, SSM)
 - **Monitoring:** Prometheus, Grafana, CloudWatch
-- **Security:** Trivy, Hadolint
+- **Security:** Trivy, Hadolint 
